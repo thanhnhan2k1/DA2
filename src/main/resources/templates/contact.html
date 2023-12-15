@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chu</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/contact.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+</head>
+<body>
+	<!-- start header -->
+	<div th:replace="header :: fheader"></div>
+	<!--breadcrumbs area start-->
+    <div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <h3>Thông tin liên hệ</h3>
+                        <ul>
+                            <li><a href="index.html">Trang chủ</a></li>
+                            <li>Liên hệ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs area end-->
+
+    <!--contact map start-->
+    <div class="contact_map mt-100">
+        <div class="map-area">
+            <div id="googleMap">
+            	<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1510.7621775132404!2d105.78680525246082!3d20.980272305343554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135accdd8a1ad71%3A0xa2f9b16036648187!2zSOG7jWMgdmnhu4duIEPDtG5nIG5naOG7hyBCxrB1IGNow61uaCB2aeG7hW4gdGjDtG5n!5e0!3m2!1svi!2s!4v1652340264635!5m2!1svi!2s" width="1470" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+    <!--contact map end-->
+
+    <!--contact area start-->
+    <div class="contact_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <div class="contact_message content">
+                        <h3>Liên hệ</h3>
+                        <p>Nếu bạn có bất kỳ câu hỏi hoặc nhận xét nào về cơ sở dữ liệu gỗ nói chung, vui lòng sử dụng biểu mẫu liên hệ để liên hệ với chúng tôi. Xin vui lòng ghi nhớ:</p>
+                        <ul>
+                        	<li>Tôi không mua bán bất kỳ loại gỗ nào trên trang web này</li>
+                        	<li>Chúng tôi sẽ dọc và trả lời bạn sớm nhất có thể.</li>
+                        </ul>
+                        <p>Thông tin liên hệ: </p>
+                        <ul>
+                            <li><i class="fa fa-fax"></i> Học viện Công nghệ bưu chính viễn thông</li>
+                            <li><i class="fa fa-phone"></i> <a href="#">demo@example.com</a></li>
+                            <li><i class="fa fa-envelope-o"></i><a href="tel:0123456789">0123456789</a> </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <div class="contact_message form">
+                        <h3>Biểu mẫu liên hệ</h3>
+                        <form method="post" th:action="@{/contact/save}" th:object="${contact}">
+                            <p>
+                                <label> Họ tên (bắt buộc)</label>
+                                <input name="name" placeholder="Họ và tên *" type="text" required th:field="*{name}">
+                            </p>
+                            <p>
+                                <label> Email (bắt buộc)</label>
+                                <input name="email" placeholder="Email *" type="email" required th:field="*{email}">
+                            </p>
+                            <p>
+                                <label> Chủ đề: </label>
+                                <input name="subject" placeholder="Chủ đề *" type="text" required th:field="*{subject}">
+                            </p>
+                            <div class="contact_textarea">
+                                <label> Nội dung: </label>
+                                <textarea placeholder="Nội dung *" name="content" class="form-control2" required th:field="*{content}"></textarea>
+                            </div>
+                            <button type="submit">Gửi</button>
+                            <p class="form-messege"></p>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div th:if="${result=='fail'}">
+    	<script >
+    		alert("Gửi không thành công");
+    	</script>
+    </div>
+    <div th:if="${result=='success'}">
+    	<script >
+    		alert("Gửi thành công");
+    		var s="/contact";
+    		window.location.href=s;
+    	</script>
+    </div>
+    <!--contact area end-->
+	<section class="mainfooter"></section>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

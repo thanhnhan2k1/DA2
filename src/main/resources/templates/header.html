@@ -1,0 +1,114 @@
+<div th:fragment="fheader">
+	<section class="mainheader">
+		<div class="container py-3">
+			<div class="row">
+				<div class="col-3">
+					<img alt="logo" src="/assets/img/logo.png" class="img-fluid">
+				</div>
+				
+				<div class="row-4">
+					<div class="menu-profile-user" th:if="${session.user}">
+						<div class="profile" onclick="menuToggle();">
+							<i class="fa-solid fa-user icons-size"></i>
+							<span class="profile-name" th:text="${session.user.name}"></span>
+						</div>
+						<script>
+							function menuToggle() {
+								const toggleMenu = document.querySelector('.sub-menu');
+								toggleMenu.classList.toggle('active')
+							}
+						</script>
+						<div class="sub-menu">
+							<ul>
+								<li><span class="fa-solid fa-user icons-size"></span> <a
+									href="#">Thông tin tài khoản</a></li>
+								<li><span class="fa-solid fa-pen-to-square icons-size"></span>
+									<a th:href="@{/user/updateInfor}">Sửa thông tin</a></li>
+								<li><span class="fa-solid fa-pen-to-square icons-size"></span>
+									<a th:href="@{/user/resetPassword}">Thay đổi mật khẩu</a></li>
+								<li><span class="fa-solid fa-bookmark icons-size"></span>
+									<a th:href="@{/user/listFavourite}">Loài gỗ yêu thích</a></li>
+								<li><span class="fa-regular fa-image icons-size"></span>
+									<a th:href="@{/user/gallery}">Lịch sử nhận dạng</a></li>
+								<li><span class="fa-solid fa-right-from-bracket icons-size"></span>
+									<a th:href="@{/user/logout}">Đăng xuất</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="menu-profile-user" th:unless="${session.user}">
+						<div class="profile" onclick="menuToggle();">
+							<i class="fa-solid fa-user icons-size"></i>
+						</div>
+						<script>
+							function menuToggle() {
+								const toggleMenu = document.querySelector('.sub-menu');
+								toggleMenu.classList.toggle('active')
+							}
+						</script>
+						<div class="sub-menu">
+							<ul>
+								<li><span class="fa-solid fa-user icons-size"></span> <a
+									th:href="@{/user/login}">Đăng nhập</a></li>
+								<li><span class="fa-solid fa-pen-to-square icons-size"></span>
+									<a th:href="@{/user/register}">Đăng kí</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end header-->
+	<section class="menu">
+		<nav class="container center">
+			<ul class="main-menu">
+				<li><a th:href="@{/}">Trang chủ</a></li>
+				<li><a>Tìm kiếm gỗ</a>
+					<ul class="sub-menu">
+						<li><a th:href="@{/wood/getsearchByQRCode}">Tìm kiếm dựa trên mã QR</a></li>
+						<li><a th:href="@{/usedService/get}">Nhận diện gỗ dựa trên ảnh</a></li>
+					</ul>
+				</li>
+				<li><a th:href="@{/wood/get}">Loại gỗ</a>
+					<ul class="sub-menu" >
+						<div th:each="i:${session.listCateWood}">
+							<li><a th:href="@{'/wood/get?category='+${i.id}}" th:text="${i.name}"></a></li>
+						</div>
+					</ul>
+				</li>
+				<li><a th:href="@{/glossary/get}">Thuật ngữ</a></li>
+				<li><a th:href="@{/blog}">Bài viết</a></li>
+				<li><a th:href="@{/contact}">Liên hệ</a></li>
+			</ul>
+		</nav>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('.sub-menu').parent('li').addClass('has-child');
+			});
+		</script>
+	</section>
+</div>
+
+<!--  
+						<li><a href="">Gá»— má»�m</a>
+							<ul class="sub-menu">
+								<li><a href="">Pinaceae</a></li>
+								<li><a href="">Podocarpaceae</a></li>
+							</ul>
+						</li>
+						<div class="col-5 text-center">
+					<div class="search_container">
+						<form th:action="@{/search}" method="get">
+							<div class="search_box">
+
+								<input placeholder="Search product..." type="text" name="nameP">
+								<button type="submit">
+									<i class="fa fa-search"></i>
+								</button>
+
+							</div>
+						</form>
+					</div>
+				</div>
+-->

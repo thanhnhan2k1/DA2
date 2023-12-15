@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chu</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+</head>
+<body>
+	<!-- start header -->
+	<div th:replace="header :: fheader"></div>
+	<section class="wood-content">
+		<div>
+			<nav aria-label="breadcrumb">
+			  <ol class="breadcrumb">
+			    <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+			    <li class="breadcrumb-item"><a th:href="@{/}" th:text="${session.wood.family.vietnamese}+' ( '+${session.wood.family.english}+' ) '"></a></li>
+			    <li class="breadcrumb-item active" aria-current="page" th:text="${session.wood.vietnameName}">Gõ Nam Phi</li>
+			  </ol>
+			</nav>
+		</div>
+		<div class="wood-detail-content">
+			<div id="detail-tab1">
+				<div th:each="img,iterStat:${session.wood.listImage}">
+					<img th:if="${iterStat.index==2}" th:src="${img.path}">
+				</div>
+				<strong th:text="${session.wood.vietnameName}"></strong>
+				<br>
+				<em>Mặt cắt dọc nhìn bằng mắt thường</em>
+			</div>
+			<div id="detail-tab2">
+				<p th:utext="'<strong>Tên Việt Nam thường gọi:</strong> ' + ${session.wood.vietnameName}"></p>
+				<p th:utext="'<strong>Tên khoa học:</strong> ' + ${session.wood.scientificName}">Afzelia africana Smith</p>
+				<p th:utext="'<strong>Tên thương mại:</strong> ' + ${session.wood.commercialName}">Afzelia, Doussie, African Mahogany</p>
+				<p th:utext="'<strong>Họ thực vật:</strong> ' + ${session.wood.family.vietnamese}+' ( '+${session.wood.family.english}+' ) '">Vang (Ceasalpiniaceae)</p>
+				<p th:utext="'<strong>Phân bố tự nhiên:</strong> ' + ${distribute}"></p>
+				<p th:utext="'<strong>Phân loại trong phụ lục Cites:</strong> ' + ${session.wood.appendixCites.name}+' ('+${session.wood.appendixCites.content}+') '"></p>
+				<p th:if="${session.wood.preservation==null}"><strong>Xếp loại trong danh sách đỏ (Red list) của IUCN:</strong>Không xác định</p>
+				<p th:unless="${session.wood.preservation==null}" th:utext="'<strong>Xếp loại trong danh sách đỏ (Red list) của IUCN:</strong> ' + ${session.wood.preservation.acronym}+' ( '+${session.wood.preservation.english}+' ) '+' - '+${session.wood.preservation.vietnamese}"></p>
+				<p th:utext="'<strong>Trọng lượng riêng:</strong> ' + ${session.wood.specificGravity}+'kg/m³'"></p>
+			</div>
+			<div id="detail-tab3">
+				<p><i class="fa-solid fa-magnifying-glass fa-rotate-90" style="color: #144190;"></i><strong>Màu sắc:</strong></p>
+				<ul th:utext="${session.wood.color}"></ul>
+			</div>
+			<div id="detail-tab3">
+				<p><i class="fa-solid fa-magnifying-glass fa-rotate-90" style="color: #144190;"></i><strong>Đặc điểm cấu tạo thô đại của gỗ:</strong></p>
+				<div th:utext="${session.wood.characteristic}"></div>
+			</div>
+			<div id="detail-tab4">
+				<p><i class="fa-solid fa-magnifying-glass fa-rotate-90" style="color: #144190;"></i><strong>Đặc điểm đặc trưng cần chú ý:</strong></p>
+				<ul th:text="${session.wood.note}"></ul>
+			</div>
+			<div class="row">
+				<p><i class="fa-regular fa-image" style="color: #1c50ab;"></i><strong>Ảnh chụp mẫu vật gỗ :</strong></p>
+				<div class="col-5">
+					<div th:each="img,iterStat:${session.wood.listImage}">
+						<img th:if="${iterStat.index==0}" th:src="${img.path}">
+					</div>
+					<br>
+					<em>Mặt cắt ngang nhìn bằng mắt thường</em>
+				</div>
+				<div class="col-5">
+					<div th:each="img,iterStat:${session.wood.listImage}">
+						<img th:if="${iterStat.index==1}" th:src="${img.path}">
+					</div>
+					<br>
+					<em>Mặt cắt ngang nhìn dưới kính lúp 24x</em>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="mainfooter"></section>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

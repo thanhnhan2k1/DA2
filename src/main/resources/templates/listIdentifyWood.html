@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chu</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/css/style.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+	<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+	<script type="text/javascript" th:src="@{/assets/js/multiselect-dropdown.js}"></script>
+</head>
+<body>
+	<!-- start header -->
+	<div th:replace="header :: fheader"></div>
+	
+	<section class="wood-content" style="padding-left: 20%; padding-right: 20%">
+		<div class="main-content-header" >
+			<h3>Lịch sử nhận dạng</h3>
+			<nav aria-label="breadcrumb">
+			  <ol class="breadcrumb">
+			    <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+			    <li class="breadcrumb-item active" aria-current="page">Lịch sử nhận dạng</li>
+			  </ol>
+			</nav>
+		</div>
+		<div id="tab2" style="width: 100%">
+			<div class="row">
+				<div >
+				    <input class="form-control me-2" type="search" placeholder="Tìm kiếm theo tên khoa học" name="key" th:value="${session.key}" onsearch="submitForm()">
+				</div>
+				<!--  
+				<div class="col-4">
+					<p th:text="${currentPage}+'/'+${session.woodpag.totalPages}+' trang'" style="text-align: right; margin-right: 12%"></p>
+				</div>
+				-->
+			</div>
+			<ul class="item">
+				<li th:each="i,iter:${session.user.listIdentify}">
+					<i th:id="${iter.index}" class="fa-regular fa-delete-left" style="color: #1d56b9;" onclick="change(this)"></i>
+					<a>
+						<img  th:src="${i.path}">
+						<strong th:text="${i.result}"></strong>
+						<br>
+						<a th:if="${i.wood}" th:href="@{'/wood/detail?id='+${i.id}}">
+						<em th:if="${i.wood}" th:text="${i.wood.vietnameName}"></em>
+						</a>
+					</a>
+				</li>
+			</ul>
+			<script type="text/javascript">
+				function change(i){
+					var s="";
+					i.className="fa-regular fa-bookmark";
+					s="/user/deleteIdentifyHistory?index="+i.id;
+		    		window.location.href=s;
+				}
+			</script>
+			<div th:if="${result=='success'}">
+		    	<script >
+		    		alert("Bỏ thích thành công");
+		    	</script>
+		    </div>
+		</div>
+	</section>
+	<section class="mainfooter"></section>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

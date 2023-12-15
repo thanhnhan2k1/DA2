@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chu</title>
+	<link th:href="@{/assets/css/sb-admin-2.min.css}" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/css/style.css">
+	<link rel="stylesheet" href="/assets/css/blog.css">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<link rel="stylesheet" th:href="@{/assets/summernote/summernote-bs4.min.css}">
+	
+</head>
+<body>
+	<!-- start header -->
+	<div th:replace="header :: fheader"></div>
+	<!--breadcrumbs area start-->
+	<div class="breadcrumbs_area">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="breadcrumb_content">
+						<h3>Bài viết chi tiết</h3>
+						<ul>
+							<li><a th:href="@{/}">Trang chủ</a></li>
+							<li>Bài viết chi tiết</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--breadcrumbs area end-->
+    <div class="blog_details">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-9 col-md-12">
+					<!--blog grid area start-->
+					<div class="blog_wrapper blog_wrapper_details">
+						<article class="single_blog">
+							<figure>
+								<div class="post_header">
+									<h3 class="post_title" th:text=${blog.title}></h3>
+									<div class="blog_meta">
+										<p>
+											Đăng ngày : <a href="#" th:text="${#dates.format(blog.dateUpdate,'dd-MM-yyyy HH:mm:ss')}"></a> /
+											Category: : <a href="#" th:text="${blog.categoryBlog.name}"></a>
+										</p>
+
+										<div class="fb-like"
+											th:data-href="'https://coffee.com:8443/blog/detail?idBlog='+${blog.id}"
+											data-width="" data-layout="" data-action="" data-size="" data-share="true">
+										</div>
+									</div>
+								</div>
+								<figcaption class="blog_content">
+									<div class="post_content">
+										<p th:utext=${blog.content}></p>
+									</div>
+								</figcaption>
+							</figure>
+						</article>
+						<div class="comments_box" id="content-comment">
+							<h3 th:text="${sizeComment}+' Bình luận'"></h3>
+							<div th:fragment="showcomment(comments)" style="padding-left: 25px;">
+								<div th:each="comment:${comments}">
+									<div class="comment_list" >
+										<div class="comment_content">
+		                                    <div class="comment_meta">
+		                                        <h5><a th:text=${comment.user.name}>Admin</a></h5>
+		                                        <span th:text="${#dates.format(comment.createAt,'dd-MM-yyyy HH:mm:ss')}"></span>
+		                                    </div>
+		                                    <p th:utext="${comment.content}"></p>
+		                                    <button  class="comment_reply" style="background: #38220F; color: white; border-radius: 5px;" th:onclick="showReplyForm(form[[${comment.id}]])">Phản hồi</button>
+		                                </div>
+		                            </div>
+									<div class="comments_form">
+										<form th:action="@{/blog/addComment}" th:id="'form'+${comment.id}" style="display: none" method="post">
+											<input type="hidden" name="idComment" th:value="${comment.id}">
+											<input type="hidden" name="idBlog" th:value="${blog.id}">
+											<div class="row">
+												<div class="col-12">
+													<h3 for="review_comment">Bình luận</h3>
+													<textarea class="summernote" name="content" th:id="'summernote'+${comment.id}"></textarea>
+												</div>
+											</div>
+											<button class="button" type="submit" style="margin-top: 10px;">Đăng</button>
+											<a th:if="${session.user==null}" style="text-decoration: underline;">Đăng nhập để bình luận</a>
+										</form>
+									</div>
+									<script type="text/javascript">
+					                     function showReplyForm(form){
+					                    	
+					                        if(form.style.display=="")
+					                        	form.style.display="none";
+					                        else
+					                        	form.style.display="";
+					                     }
+					                </script>
+									<div th:if="${comment.listChildren}">
+										<div th:replace="~{blog/detailblog::showcomment(${comment.listChildren})}"></div>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+                        <div class="comments_form">
+                            <h3>Bình luận </h3>
+                            <form th:action="@{/blog/addComment}" method="post">
+                            	<input type="hidden" name="idBlog" th:value="${blog.id}">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <textarea class="summernote"  name="content" id="summernote"></textarea>
+                                    </div>
+                                    
+                                </div>
+                                <button class="button" type="submit" style="margin-top: 10px;">Đăng</button>
+                                <a th:if="${session.user==null}" style="text-decoration: underline;">Đăng nhập để bình luận</a>
+                            </form>
+                        </div>
+					</div>
+					<!--blog grid area start-->
+				</div>
+				<div class="col-lg-3 col-md-12">
+					<div class="blog_sidebar_widget">
+						<div class="widget_list widget_post">
+							<div class="widget_title">
+								<h3>Bài đăng gần đây</h3>
+							</div>
+							<div class="post_wrapper" th:each="blog, itr:${session.listTop5}">
+								<div class="post_thumb">
+									<a th:href="@{/blog/detail?idBlog={id}(id=${itr.index})}"><img th:src="@{${blog.image}}"
+										alt=""></a>
+								</div>
+								<div class="post_info">
+									<h4>
+										<a th:href="@{/blog/detail?idBlog={id}(id=${itr.index})}" th:text=${blog.title}></a>
+									</h4>
+									<span th:text="${#dates.format(blog.dateUpdate,'dd-MM-yyyy HH:mm:ss')}"></span>
+								</div>
+							</div>
+							<div class="widget_list widget_categories">
+								<div class="widget_title">
+									<h3>Danh mục blog</h3>
+								</div>
+								<ul th:each="cate:${session.listCate}">
+									<li><a
+										th:href="@{/blog?page=1&idCate={id}(id=${cate.id})}"
+										th:text=${cate.name}></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<section class="mainfooter"></section>
+	<!-- Bootstrap core JavaScript-->
+    <script th:src="@{/assets/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script th:src="@{/assets/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script th:src="@{/assets/js/sb-admin-2.min.js}"></script>
+    <script th:src="@{/assets/summernote/summernote-bs4.min.js}"></script>
+	<script th:src="@{/assets/summernote/summernote-bs4.min.js}"></script>
+	<script>
+		$(function() {
+			
+			// Summernote
+			$('.summernote').summernote({
+				
+			    //Your classic summernote code here
+			    
+			    //Define the callback
+			    callbacks: {
+			    	onImageUpload: function(files) {
+			    		var textareaId=$(this).attr('id');
+			    		for(i of files){
+			    			let data = new FormData();
+						    data.append("file", i);
+						    alert(files[0]);
+						    $.ajax({
+						        data: data,
+						        type: "POST",
+						        url: "http://localhost:8082/upload/saveFile", //Your own back-end uploader
+						        cache: false,
+						        contentType: false,
+						        processData: false,
+						        xhr: function() { //Handle progress upload
+						            let myXhr = $.ajaxSettings.xhr();
+						            if (myXhr.upload) myXhr.upload.addEventListener('progress', progressHandlingFunction, false);
+						            return myXhr;
+						        },
+						        success: function(reponse) {
+						                let elem;
+										
+						                    //Picture
+						                   	elem = document.createElement("img");
+	                    					elem.setAttribute("src", reponse);
+	                    					var x="summernote"+"[[${id}]]";
+						                    $('#'+textareaId).summernote('editor.insertNode', elem);
+						                    //$summernote.summernote('editor.insertNode', imgNode);
+						        }
+						    });
+			    		}
+					    
+			        },
+				  }
+			        
+			});
+			
+			function myOwnCallBack(file) {
+				
+			}
+			function progressHandlingFunction(e) {
+			    if (e.lengthComputable) {
+			        //Log current progress
+			        console.log((e.loaded / e.total * 100) + '%');
+
+			        //Reset progress on complete
+			        if (e.loaded === e.total) {
+			            console.log("Upload finished.");
+			        }
+			    }
+			}
+		})
+	</script>
+</body>
+</html>
+
+<!--
+<div class="entry_content">
+	<div class="social_sharing">
+		<p>share this post:</p>
+		<ul>
+			<li><a href="#" title="facebook"> <i class="fa fa-facebook">
+				</i>
+			</a></li>
+			<li><a href="#" title="google+"><i class="fa fa-google-plus"></i></a>
+			</li>
+		</ul>
+	</div>
+</div>
+  -->

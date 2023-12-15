@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chu</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/css/style.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+	<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+<body>
+	<!-- start header -->
+	<div th:replace="header :: fheader"></div>
+	<section class="wood-content">
+		<div class="tab1">
+			<h5>LỌC CƠ BẢN</h5>
+			
+			<h6>Lọc theo họ thực vật</h6>
+			<form th:action="@{/wood/get}" method="get" id="f1">
+			<div th:each="i:${session.mapfamily}">
+				<input type="checkbox" name="family" th:value="${i.key.english}" th:checked="${i.value}" onchange="submitForm()">
+				<span th:text="${i.key.vietnamese}+' ('+${i.key.english}+')'"></span></br>
+			</div>
+			
+			<h6>Vị trí</h6>
+			<div th:each="i:${session.mapArea}">
+				<input type="checkbox" name="area" th:value="${i.key.english}" th:checked="${i.value}" onchange="submitForm()">
+				<span th:text="${i.key.english}"></span></br>
+			</div>
+			
+			<h6>Màu sắc</h6>
+			<div th:each="i:${session.mapColor}">
+				<input type="checkbox" name="color" th:value="${i.key}" th:checked="${i.value}" onchange="submitForm()">
+				<span th:text="${i.key}"></span></br>
+			</div>
+			
+			<h6>Tình trạng CITES</h6>
+			<div th:each="i:${session.mapCites}">
+				<input type="checkbox" name="cites" th:value="${i.key.name}" th:checked="${i.value}" onchange="submitForm()">
+				<span th:text="${i.key.name}"></span></br>
+			</div>
+		</div>
+		<div id="tab2">
+			<div class="row">
+				<div class="col-7" style="margin-left: 7%">
+				    <input class="form-control me-2" type="search" placeholder="Tìm kiếm theo tên việt hoặc tên khoa học" name="key" th:value="${session.key}" onsearch="submitForm()">
+				</div>
+				
+				<div class="col-4">
+					<p th:text="${currentPage}+'/'+${session.woodpag.totalPages}+' trang'" style="text-align: right; margin-right: 12%"></p>
+				</div>
+			</div>
+			<div class="row">
+				<a th:href="@{/wood/get}" style="width: 39.5%; padding-top: 10px;">Đặt lại toàn bộ các tùy chọn</a>
+			</div>
+			<ul class="item">
+				<li th:each="i,iter:${session.woodpag.content}">
+					<a th:href="@{'/wood/detail?index='+${iter.index}}">
+						<div th:each="img,iterStat:${i.listImage}">
+						<img th:if="${iterStat.index==2}" th:src="${img.path}">
+						</div>
+						<strong th:text="${i.vietnameName}"></strong>
+						<br>
+						<em th:text="${i.scientificName}"></em>
+					</a>
+				</li>
+			</ul>
+			<div >
+		    	<a th:if="${currentPage > 1}" th:href="${session.url}+'pageNum=1'">First</a>
+				<span th:unless="${currentPage > 1}">First</span>
+				<a th:if="${currentPage > 1}" th:href="${session.url}+'pageNum=' + ${currentPage - 1}">Previous</a>
+				<span th:unless="${currentPage > 1}">Previous</span>
+				<span th:if="${session.woodpag.totalPages <= 3}" th:each="i: ${#numbers.sequence(1, session.woodpag.totalPages)}">
+				    <a th:if="${currentPage != i}" th:href="${session.url}+'pageNum=' + ${i}">[[${i}]]</a>
+				    <span th:unless="${currentPage != i}">[[${i}]]</span>
+				    &nbsp;
+				</span>
+				<span th:unless="${session.woodpag.totalPages <= 3}">
+					<span th:if="${currentPage < session.woodpag.totalPages-1}" th:each="i: ${#numbers.sequence(currentPage, currentPage+2)}">
+					    <a th:if="${currentPage != i}" th:href="${session.url}+'pageNum=' + ${i}">[[${i}]]</a>
+					    <span th:unless="${currentPage != i}">[[${i}]]</span>
+					    &nbsp;
+					</span>
+					<span th:unless="${currentPage < session.woodpag.totalPages-1}" th:each="i: ${#numbers.sequence(session.woodpag.totalPages-2, session.woodpag.totalPages)}">
+					    <a th:if="${currentPage != i}" th:href="${session.url}+'pageNum=' + ${i}">[[${i}]]</a>
+					    <span th:unless="${currentPage != i}">[[${i}]]</span>
+					    &nbsp;
+					</span>
+				</span>
+				<a th:if="${currentPage < session.woodpag.totalPages}" th:href="${session.url}+'pageNum=' + ${currentPage + 1}">Next</a>
+				<span th:unless="${currentPage < session.woodpag.totalPages}">Next</span>
+				<a th:if="${currentPage < session.woodpag.totalPages}" th:href="${session.url}+'pageNum=' + ${session.woodpag.totalPages}">Last</a>
+				<span th:unless="${currentPage < session.woodpag.totalPages}">Last</span>
+			</div>
+		</div>
+		<div id="tab3">
+			<h6>Sắp xếp theo</h6>
+			<select name="sort" id="short" class="select_option" onChange="submitForm()">
+                  <option th:each="i:${session.mapSort}" th:value="${i.key}" th:text=${i.key} th:if="${i.value}" selected="selected"></option>
+				  <option th:each="i:${session.mapSort}" th:value="${i.key}" th:text=${i.key} th:unless="${i.value}"></option>           
+            </select>
+            <h6 style="margin-top: 20px">Xếp loại trong danh sách đỏ của IUCN</h6>
+			<div th:each="i:${session.mapPre}">
+				<input type="checkbox" name="preservation" th:value="${i.key.acronym}" th:checked="${i.value}" onchange="submitForm()">
+				<span th:text="${i.key.acronym}+' - '+${i.key.vietnamese}"></span></br>
+			</div>
+			
+			
+			<div id="slider-range"></div>
+			</form>
+			<h5><a th:href="@{/usedService/get}">TÌM KIẾM NÂNG CAO THEO ẢNH</a></h5>
+		</div>
+		<script type="text/javascript">
+				function submitForm(){
+		    		document.getElementById('f1').submit();
+				}
+		</script>
+	</section>
+	<section class="mainfooter"></section>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

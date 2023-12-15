@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chu</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+</head>
+<body>
+	<!-- start header -->
+	<div th:replace="header :: fheader"></div>
+	<section class="maincontent-glossary">
+    	<div class="main-content-header" style="min-height: 60px;">
+			<h3 style="font-size: 20px">Nhận diện bằng hình ảnh</h3>
+		</div>
+		
+		<div style="text-align: center;display: block" id="images">
+			<h5>Hãy chọn 1 hay nhiều hình ảnh để nhận dạng</h5>
+		</div>
+		<div></div>
+		<div style="text-align: center;display: block; margin-top: 15px;">
+			<form th:action="@{/wood/identification}" method="post" enctype="multipart/form-data">
+				<input id="file-input" type="file" name="img" onchange="preview()" multiple="multiple">
+				<button type="submit" class="btn btn-success">Nhận dạng</button>
+			</form>
+		</div>
+		<div th:each="i,itr:${session.listResult}" class="style-identify">
+			<h5>Kết quả nhận diện: </h5>
+			<b>Kết quả: </b><p th:text="${i.result}">Nhận dạng thành công</p>
+			<b>Tỷ lệ khớp: </b><p th:text="${i.prob}">68%</p>
+			<div th:if="${i.wood}">
+				<b>Tên loài gỗ: </b><p th:text="${i.wood.vietnameName}">Gỗ Nam Châu Phi</p>
+				<button class="btn btn-success" ><a th:href="@{'/wood/detail?id='+${i.id}}">Xem thông tin chi tiết của gỗ</a></button>
+			</div>
+			<script type="text/javascript">
+				imageContainer=document.getElementById("images");
+				img=document.createElement("img");
+				img.style="width: 30%; height: 30%; padding: 1%;";
+				img.setAttribute("src","[[${i.path}]]");
+				imageContainer.appendChild(img);
+			</script>
+		</div>
+		<script type="text/javascript">
+			function preview(){
+				let fileInput=document.getElementById("file-input");
+				/*	let img=document.getElementById("img");
+				let reader=new FileReader();
+				reader.onload=()=>{
+					img.setAttribute("src",reader.result);
+				}
+				reader.readAsDataURL(fileInput.files[0]);*/
+				let imageContainer=document.getElementById("images");
+				let arrImages=[];
+				for(i of fileInput.files){
+					if(arrImages.every(e => e.name !== i.name)) arrImages.push(i);
+				}
+				imageContainer.innerHTML="";
+//				numOfFiles.textContent=arrImages.length+' ảnh được chọn';	
+				for(let i=0;i<arrImages.length;i++){
+					let reader=new FileReader();
+					reader.onload=()=>{
+						let img=document.createElement("img");
+						img.style="width: 30%; height: 30%; padding: 1%;";
+						img.setAttribute("src",reader.result);
+						imageContainer.appendChild(img);
+					}
+					reader.readAsDataURL(arrImages[i]);
+				}
+			}
+		</script>
+	</section>
+	<section class="mainfooter"></section>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

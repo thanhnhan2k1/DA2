@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chu</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+</head>
+<body>
+	<!-- start header -->
+	<div th:replace="header :: fheader"></div>
+	<div class="container" style="padding: 3% 5%;">
+		<h5>Xác nhận thanh toán</h5>
+		<div class="row">
+		    <table class="table table-striped table-hover table-hover">
+		        <tbody>
+		            <tr>
+		                <td>Tên gói</td>
+		                <td th:text="'Sử dụng dịch vụ nhận dạng trong '+ ${session.usedService.service.name}">Sử dụng dịch vụ nhận dạng trong 30 ngày</td>
+		            </tr>
+					<tr>
+		                <td>Thời hạn gói</td>
+		                <td th:text="${session.usedService.service.duration} + ' tháng'">30 ngày</td>
+		            </tr>
+		            <tr>
+		                <td>Sử dụng đến</td>
+		                <td th:text="${#dates.format(session.usedService.dateEnd,'dd-MM-yyyy HH:mm:ss')}">05/10/2023</td>
+		            </tr>
+		            <tr>
+		                <td>Giá tiền</td>
+		                <td th:text="${session.usedService.service.price}+' đồng'">30000</td>
+		            </tr>
+		            <tr>
+		                <td>Khuyến mãi</td>
+		                <td th:if="${session.usedService.voucher!=null}" th:text="${session.usedService.voucher.amount}+' dong'"></td>
+		                <td th:if="${session.usedService.voucher==null}">--</td>
+		            </tr>
+		            <tr>
+		                <td>Thành tiền</td>
+		                <td th:text="${session.usedService.totalMoney}+' đồng'">30000</td>
+		            </tr>
+		            <tr>
+		                <td><button><a th:href="@{/usedService/payment}">Thanh toán</a></button></td>
+		            </tr>
+		        </tbody>
+		    </table>
+		</div>
+		<h5>Chọn voucher</h5>
+		<div class="row">
+		    <table class="table table-striped table-hover table-hover">
+		    	<thead>
+		    		<tr>
+		    			<th>Mã voucher</th>
+		    			<th>Hạn sử dụng</th>
+		    			<th>Giá trị giảm</th>
+		    			<th>Chọn</th>
+		    		</tr>
+		    	</thead>
+		        <tbody>
+		        
+		            <tr th:each="i, itr:${session.listVoucher}">
+		                <td th:text="${i.code}"></td>
+		                <td th:text="${#dates.format(i.dateStart,'dd-MM-yyyy HH:mm:ss')}+' - '+ ${#dates.format(i.dateEnd,'dd-MM-yyyy HH:mm:ss')}"></td>
+		                <td th:text="${i.amount}+' đồng'"></td>
+		                <td th:if="${session.usedService.voucher!=null}">
+		                <button>
+		                <a th:if="${session.usedService.voucher.code==i.code}">Đã chọn</a>
+		                <a th:href="@{'/usedService/addVoucher?index='+${itr.index}}" th:if="${session.usedService.voucher.code!=i.code}">chọn</a>
+		                </button>
+		                </td>
+		                <td th:if="${session.usedService.voucher==null}">
+		                <button>
+		                <a th:href="@{'/usedService/addVoucher?index='+${itr.index}}">chọn</a>
+		                </button>
+		                </td>
+		            </tr>
+					
+		        </tbody>
+		    </table>
+		</div>
+	<section class="mainfooter"></section>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

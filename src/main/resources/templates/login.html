@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chu</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<script src="https://code.jquery.com/jquery-3.7.0.js" ></script>
+</head>
+<body>
+	<!-- start header -->
+	<div th:replace="header :: fheader"></div>
+	<section class="maincontent">
+		<div class="signup">
+		      <h1 class="signup-heading">Đăng nhập</h1>
+		      <a href="http://localhost:8082/oauth2/authorize/google?redirect_uri=http://localhost:8081/user/getGoogleInfor">
+		      <button class="signup-social">
+		        <i class="fa-brands fa-google signup-social-icon" style="color: #d42916;"></i>
+		        <span class="signup-social-text">Đăng nhập với google</span>
+		      </button>
+		      </a>
+		      <div class="signup-or"><span>Or</span></div>
+		      <div th:if="${error =='fail'}">
+					<p style="color: #d42916;">Email hoặc password sai</p>
+			  </div>
+		      <form th:action="@{/user/login}" method="post" th:object="${user}" class="signup-form" autocomplete="off">
+		        <label class="signup-label">Email</label>
+		        <input type="email" name="email" class="signup-input" th:field="*{email}" placeholder="Nhập email" required>
+		        <label class="signup-label">Mật khẩu</label>
+		        <input type="password" name="password" class="signup-input" th:field="*{password}" placeholder="nhập password" required>
+		        <input type="checkbox" name="rememberMe" th:value="off"><span>  Ghi nhớ tôi</span></br>
+		        
+		        <button class="signup-submit" type="submit">Đăng nhập</button>
+		      </form>
+		      <p class="signup-already">
+			        <a th:href="@{/user/resetPassword}" class="signup-login-link">Quên mật khẩu</a>
+			  </p>
+		      <p class="signup-already">
+		        <span>Chưa có tài khoản?</span>
+		        <a href="#" class="signup-login-link">Đăng nhập</a>
+		      </p>
+		</div>
+	</section>
+	<section class="mainfooter"></section>
+<!--<script type="text/javascript" src="/assets/js/demo.js"></script> -->
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" ></script>
+</body>
+</html>

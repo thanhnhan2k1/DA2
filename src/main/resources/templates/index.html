@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang chu</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+</head>
+<body>
+	<!-- start header -->
+	<div th:replace="header :: fheader"></div>
+	<section class="maincontent1">
+		<div class="cover-image">
+			<img src="/assets/img/img_cover.png">
+			<p> Chào mừng bạn đến với The Wood Demo, một ứng dụng cơ sở dữ liệu tham khảo chứa thông tin, hình ảnh vĩ mô của các loài gỗ trên thế giới. Chúng tôi đánh giá cao sự phản hồi của bạn hãy cho chúng tôi biết suy nghĩ của bạn ở đây</p>
+		</div>
+	</section>
+	<section class="maincontent1">
+		<div class="slide-image">
+			<div id="carouselExampleDark" class="carousel carousel-dark slide">
+			  <div class="carousel-indicators">
+			    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+			    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+			    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+			    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
+			    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="4" aria-label="Slide 5"></button>
+			    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="5" aria-label="Slide 6"></button>
+			    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="6" aria-label="Slide 7"></button>
+			  </div>
+			  <div class="carousel-inner">
+			    <div class="carousel-item active" data-bs-interval="10000">
+			      <img src="/assets/img/anh1.png" class="d-block w-100" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			        <h5>Bước 1</h5>
+			        <p>Tạo một vết cắt nhỏ ở cuối thớ gỗ bằng công cụ sắc bén như dao để lộ đặc điểm vĩ mô.</p>
+			      </div>
+			    </div>
+			    <div class="carousel-item" data-bs-interval="2000">
+			      <img src="/assets/img/anh2.png" class="d-block w-100" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			        <h5>Bước 2</h5>
+			        <p>Mở camera bằng cách ấn nút nhận diện hình ảnh</p>
+			      </div>
+			    </div>
+			    <div class="carousel-item">
+			      <img src="/assets/img/anh3.png" class="d-block w-100" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			        <h5>Bước 3</h5>
+			        <p>Chụp ảnh vĩ mô của gỗ</p>
+			      </div>
+			    </div>
+			    <div class="carousel-item">
+			      <img src="/assets/img/anh4.png" class="d-block w-100" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			        <h5>Bước 4</h5>
+			        <p>Có thể chọn hình ảnh vĩ mô bằng thư viện</p>
+			      </div>
+			    </div>
+			    <div class="carousel-item">
+			      <img src="/assets/img/anh5.png" class="d-block w-100" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			        <h5>Bước 5</h5>
+			        <p>Giao diện kết quả thành công</p>
+			      </div>
+			    </div>
+			    <div class="carousel-item">
+			      <img src="/assets/img/anh6.png" class="d-block w-100" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			        <h5>Bước 6</h5>
+			        <p>Giao diện kết quả không thành công</p>
+			      </div>
+			    </div>
+			    <div class="carousel-item">
+			      <img src="/assets/img/anh7.png" class="d-block w-100" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			        <h5>Bước 7</h5>
+			        <p>Lịch sử nhận dạng gỗ</p>
+			      </div>
+			    </div>
+			  </div>
+			  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+			    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			    <span class="visually-hidden">Previous</span>
+			  </button>
+			  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+			    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			    <span class="visually-hidden">Next</span>
+			  </button>
+			</div>
+		</div>
+	</section>
+	<section class="mainfooter"></section>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
