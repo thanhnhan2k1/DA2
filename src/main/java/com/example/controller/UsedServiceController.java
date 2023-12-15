@@ -107,7 +107,7 @@ public class UsedServiceController {
 	private void payment(HttpSession session, HttpServletResponse response ) throws IOException {
 		UsedService usedService=(UsedService) session.getAttribute("usedService");
 		// tao hoa don thanh toan
-		String url1=rest.postForObject(url+"/usedService/payment?vnp_return=http://localhost:8081/usedService/vnpay_return",usedService, String.class);
+		String url1=rest.postForObject(url+"/usedService/payment?vnp_return=https://da-production.up.railway.app/usedService/vnpay_return",usedService, String.class);
 		System.out.println(url1);
 		Gson gson=new Gson();
 		String url_pay=gson.fromJson(url1, String.class);
